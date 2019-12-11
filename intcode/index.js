@@ -11,7 +11,6 @@ module.exports.runUntilEnd = function runUntilEnd(instrs, inputs) {
 };
 
 module.exports.run = function* run(instrs, inputs) {
-  let inputIdx = 0;
   let ip = 0;
   let running = true;
   let relBase = 0;
@@ -46,13 +45,14 @@ module.exports.run = function* run(instrs, inputs) {
         ip += 4;
         break;
       case 3: {
-        const val = inputs[inputIdx++];
-        if (val === null || val === undefined) {
+        const val = inputs.next();
+        if (val.done) {
           console.error('Missing input!');
           running = false;
+        } else {
+          store(0, val.value);
+          ip += 2;
         }
-        store(0, val);
-        ip += 2;
         break;
       }
       case 4:
@@ -61,7 +61,7 @@ module.exports.run = function* run(instrs, inputs) {
           return;
         }
         const newInput = yield p1;
-        inputs = inputs || newInput;
+        inputs = newInput || inputs;
         ip += 2;
         break;
       case 5:
