@@ -96,7 +96,5 @@ part1() // 295944: [mutex, astronaut ice cream, tambourine, easter egg]
   .then(() => rl.close());
 
 function part2() {
-
+  // Merry Christmas! 🎄🎅
 }
-
-// console.log(part2());
