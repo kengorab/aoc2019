@@ -31,7 +31,7 @@ module.exports.Intcode = class Intcode {
     else instrs[relBase + instrs[ip + i + 1]] = val;
   }
 
-  run(timeout = 0) {
+  async run(timeout = 0) {
     let t = 0;
     while (this.running) {
       if (timeout && t >= timeout) break;
@@ -51,7 +51,7 @@ module.exports.Intcode = class Intcode {
           this.ip += 4;
           break;
         case 3: {
-          const input = this.inFn();
+          const input = await this.inFn();
           if (input === null || input === undefined) {
             console.error('Missing input!');
             this.running = false;
